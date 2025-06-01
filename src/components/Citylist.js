@@ -7,7 +7,7 @@ export default function CityList({ $app, initialState, handleLoadMore}){
 
     this.template = () =>{
         let temp=`<div class="city-items-container">`;
-        if(this.state){
+        if(this.state && Array.isArray(this.state.cities)){
             this.state.cities.forEach((elm)=>{
                 temp += `
                 <div class="city-item" id=${elm.id}>
