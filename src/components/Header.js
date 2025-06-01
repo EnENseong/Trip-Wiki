@@ -7,12 +7,10 @@ export default function Header({$app, initialState, handleSortChange, handleSear
     this.handleSearch = handleSearch;
     $app.appendChild(this.$target);
     this.template = () =>{
-        const { sortBy, searchWord} = this.state;
-        let temp = `
-        <div class="title">
-        <a href="/">Trip Wiki</a>
-        </div>
-        <div class ="filter-search-container">
+        const { sortBy, searchWord, currentPage} = this.state;
+        let temp = `<div class="title"><a href="/">✈️ Trip Wiki</a></div>`;
+        if (!currentPage.includes('/city/'))
+            temp += `<div class="filter-search-container">
             <div class="filter">
                 <select id="sortList" class="sort-list">
                     <option value="total" ${sortBy === 'total' ? 'selected' : ''}>Total</option>
@@ -25,7 +23,7 @@ export default function Header({$app, initialState, handleSortChange, handleSear
                 </select>
             </div>
             <div class="search">
-                <input type="text" placeholder="Search" id="search" autocomplete="off" value=${searchWord}>
+            <input type="text" placeholder="Search" id="search" autocomplete="off" value=${searchWord} >
             </div>
         </div>`;
 
@@ -34,7 +32,7 @@ export default function Header({$app, initialState, handleSortChange, handleSear
 
 this.render = () => {
         this.$target.innerHTML = this.template();
-        
+        if (!this.state.currentPage.includes('/city/')) {
             document.getElementById('sortList').addEventListener('change', (event) => {
                 this.handleSortChange(event.target.value);
             });
@@ -44,7 +42,7 @@ this.render = () => {
                     this.handleSearch($searchInput.value);
                 }
             });
-        
+        }
     };
 
     this.setState = (newState) => {
